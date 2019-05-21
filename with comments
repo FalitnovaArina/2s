@@ -1,0 +1,98 @@
+// ConsoleApplication45.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include<iostream>
+#include<windows.h>
+using namespace std;
+class bilet//êëàññ áèëåò - àáñòðàêòíûé êëàññ
+{
+public:
+	int  rno;//íîìåð áèëåòà
+	virtual double getNomer() = 0;//÷èñòî âèðòóàëüíàÿ ôóíêöèÿ
+};
+
+class student :public bilet//êëàññ ñòóäåíò
+{
+protected:
+	int  m1, m2;//îöåíêè çà 1 è 2 ñäà÷è
+public:
+	void operator ++()//ïåðåçðóçêè îïåðàòîðîâ
+	{
+		m1 = m1 + 1;
+	}
+	void operator --()//ïåðåçðóçêè îïåðàòîðîâ
+	{
+		m1 = m1 - 1;
+	}
+	void operator +(int c)//ïåðåçðóçêè îïåðàòîðîâ
+	{
+		m1 = m1 + c;
+	}
+	double getNomer()//ìåòîä ïîëó÷åíèÿ íîìåðà
+	{
+		return rno;
+	}
+	student()//êîíñòðóêòîð
+	{
+		cout << "Vvedite nomer bileta :";
+		cin >> rno;//ââîä íîìåðà áèëåòà 
+		cout << "Vvedite pervuyu otmetku   :";
+		cin >> m1;//ââîä ïåðâîé îòìåòêè
+		cout << "Vvedite vtoruyu otmetku   :";
+		cin >> m2;//ââîä âòîðîé îòìåòêè
+	}
+};
+class sports //êëàññ ñïîðò
+{
+private:
+	int sm; //îöåíêà çà ñïîðò
+
+public:
+	sports(int sm1) //êîíñòóêòîð
+	{
+		this->sm = sm1;//
+	}
+	sports() //êîíñòóêòîð
+	{
+		cout << "\nVvedite otmetku po sportu :";
+		cin >> sm;//
+	}
+	~sports()//äåñòðóêòîð
+	{
+
+	}
+	int  getsm()//ìåòîä ïîëó÷åíèÿ îöåíêè
+	{
+		return sm;//
+	}
+	friend void setData(int, sports&);//äðóæåñòâåííàÿ ôóíêöèÿ
+
+};
+void setData(int w, sports& a)//
+{
+	a.sm = w;
+}
+class statement : public student, public sports//êëàññ îöåíèâàíèå - ìíîæåñòâåííîå íàñëåäîâàíèå êëàññîâ student è sports
+{
+	int tot, avg;//
+public:
+	statement()//êîíñòóðóêòîð
+	{
+		sports();//
+		student();//
+	}
+	void display() //ïîäñ÷åò è âûâîä
+	{
+		tot = (m1 + m2 + getsm());//
+		avg = tot / 3;//
+		cout << "\n\n\tNomer bileta    : " << rno << "\n\tVsego      : " << tot;//
+		cout << "\n\tSredniy ball    : " << avg;//
+	}
+};
+void main()//ìåéí
+{
+	statement obj;//ñîçäàåì îöåíèâàíèå
+	obj.display();//âûçûâàåì âûâîä íà ýêðàí ðåçóëüòàòîâ
+	system("pause");//
+}
