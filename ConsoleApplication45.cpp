@@ -1,0 +1,98 @@
+// ConsoleApplication45.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include<iostream>
+#include<windows.h>
+using namespace std;
+class bilet//класс билет - абстрактный класс
+{
+public:
+	int  rno;//номер билета
+	virtual double getNomer() = 0;//чисто виртуальная функция
+};
+
+class student :public bilet//класс студент
+{
+protected:
+	int  m1, m2;//оценки за 1 и 2 сдачи
+public:
+	void operator ++()//перезрузки операторов
+	{
+		m1 = m1 + 1;
+	}
+	void operator --()//перезрузки операторов
+	{
+		m1 = m1 - 1;
+	}
+	void operator +(int c)//перезрузки операторов
+	{
+		m1 = m1 + c;
+	}
+	double getNomer()//метод получения номера
+	{
+		return rno;
+	}
+	student()//конструктор
+	{
+		cout << "Vvedite nomer bileta :";
+		cin >> rno;//ввод номера билета 
+		cout << "Vvedite pervuyu otmetku   :";
+		cin >> m1;//ввод первой отметки
+		cout << "Vvedite vtoruyu otmetku   :";
+		cin >> m2;//ввод второй отметки
+	}
+};
+class sports //класс спорт
+{
+private:
+	int sm; //оценка за спорт
+
+public:
+	sports(int sm1) //констуктор
+	{
+		this->sm = sm1;//
+	}
+	sports() //констуктор
+	{
+		cout << "\nVvedite otmetku po sportu :";
+		cin >> sm;//
+	}
+	~sports()//деструктор
+	{
+
+	}
+	int  getsm()//метод получения оценки
+	{
+		return sm;//
+	}
+	friend void setData(int, sports&);//дружественная функция
+
+};
+void setData(int w, sports& a)//
+{
+	a.sm = w;
+}
+class statement : public student, public sports//класс оценивание - множественное наследование классов student и sports
+{
+	int tot, avg;//
+public:
+	statement()//констуруктор
+	{
+		sports();//
+		student();//
+	}
+	void display() //подсчет и вывод
+	{
+		tot = (m1 + m2 + getsm());//
+		avg = tot / 3;//
+		cout << "\n\n\tNomer bileta    : " << rno << "\n\tVsego      : " << tot;//
+		cout << "\n\tSredniy ball    : " << avg;//
+	}
+};
+void main()//мейн
+{
+	statement obj;//создаем оценивание
+	obj.display();//вызываем вывод на экран результатов
+	system("pause");//
+}
